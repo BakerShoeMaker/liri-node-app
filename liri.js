@@ -1,15 +1,14 @@
-//This file will read the keys in the keys.js.
 const fs = require('fs');
-//const request = require('request');
+const twitterKeys = require('./keys.js');
+var Twitter = require('twitter');
 var request = require("request");
-const twitter = require('./keys.js');
 
-//const nameOfInput == process.argv[3];
 
-const consumer_key = twitter.consumer_key;
-const consumer_secret = twitter.consumer_secret ;
-const access_token_key = twitter.access_token_key;
-const access_token_secret = twitter.access_token_secret;
+
+const consumer_key = twitterKeys.consumer_key;
+const consumer_secret = twitterKeys.consumer_secret ;
+const access_token_key = twitterKeys.access_token_key;
+const access_token_secret = twitterKeys.access_token_secret;
 
 const myTweets = 'my-tweets';
 const spotifyThisSong = 'spotify-this-song';
@@ -24,19 +23,32 @@ fs.readFile('keys.js',"utf8", function (err, data)
         if (err) {
             return console.log(err);
         }
-        //console.log(data);
-        console.log("------------------------------------------------------------------------");
-        console.log('The consumer twitter key is: ', consumer_key);
-        console.log('The consumer secret key is: ', consumer_secret);
-        console.log('The access token is: ', access_token_key);
-        console.log('The access token secret: ', access_token_secret);
-        console.log("------------------------------------------------------------------------");
+
     }
 );
 //--------------------- displays tweets
 if(process.argv[2] == myTweets){
 
     console.log("You entered my tweets!");
+
+    var client = new Twitter({
+        consumer_key: consumer_key,
+        consumer_secret: consumer_secret,
+        access_token_key: access_token_key,
+        access_token_secret: access_token_secret
+
+        // consumer_key: process.env.TWITTER_CONSUMER_KEY,
+        // consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+        // access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
+        // access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+    });
+
+    var params = {screen_name: 'bakershoemaker'};
+    client.get('statuses/user_timeline', params, function(error, tweets, response) {
+        if (!error) {
+            console.log(tweets);
+        }
+    });
 }
 //--------------------- displays spotify songs
 else if(process.argv[2]== spotifyThisSong)
