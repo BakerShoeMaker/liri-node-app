@@ -2,6 +2,7 @@ const fs = require('fs');
 const twitterKeys = require('./keys.js');
 var Twitter = require('twitter');
 var request = require("request");
+var Spotify = require('node-spotify-api');
 
 
 
@@ -14,6 +15,9 @@ const myTweets = 'my-tweets';
 const spotifyThisSong = 'spotify-this-song';
 const movieThis = 'movie-this';
 const doWhatItSays = 'do-what-it-says';
+
+const spotifyClientID = "35ff7fa7ee764a34a0c49474e421b449";
+const spotifyClientSecret = "945b74c577ff416880714257c443e41e";
 
 var nameOfInput = process.argv[3];
 
@@ -28,8 +32,6 @@ fs.readFile('keys.js',"utf8", function (err, data)
 );
 //--------------------- displays tweets
 if(process.argv[2] == myTweets){
-
-    console.log("You entered my tweets!");
 
     var client = new Twitter({
         consumer_key: consumer_key,
@@ -46,20 +48,39 @@ if(process.argv[2] == myTweets){
     var params = {screen_name: 'bakershoemaker'};
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
         if (!error) {
-            console.log(tweets);
+            console.log(tweets); //what do I use to display the tweets?
         }
     });
 }
 //--------------------- displays spotify songs
 else if(process.argv[2]== spotifyThisSong)
 {
+    console.log("You entered: ", nameOfInput);
+    console.log(spotifyClientSecret);
+    var spotify = new Spotify({
+            id: spotifyClientID,
+        secret: spotifyClientSecret
+    });
 
-    console.log("You entered Spotify!");
+    spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        }
+
+        console.log(data);
+    });
+
+    console.log("Artist: ");
+    console.log("Song: ");
+    console.log("Preview link: ");
+    console.log("Album: ");
+
+
+
 }
 //--------------------- displays movies
 else if(process.argv[2]== movieThis )
 {
-    console.log("You entered movie this!");
     console.log("You entered: " , nameOfInput);
     request("http://www.omdbapi.com/?t="+nameOfInput +"&apikey=40e9cece", function(error, response, body) {
     //
