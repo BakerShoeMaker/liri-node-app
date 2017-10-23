@@ -30,6 +30,10 @@ fs.readFile('keys.js',"utf8", function (err, data)
 
     }
 );
+
+
+
+
 //--------------------- displays tweets
 if(process.argv[2] == myTweets){
 
@@ -103,6 +107,15 @@ else if(process.argv[2]== movieThis )
 //-------------------- displays text inside of random.txt
 else if(process.argv[2]== doWhatItSays)
 {
-
     console.log("You entered do what it says!!");
+    fs.readFile('random.txt',"utf8", function (err, data)
+        {
+            //Logs the error in the file.
+            if (err) {
+                return console.log(err);
+            }
+            console.log(data);
+
+        }
+    );
 }
