@@ -4,8 +4,6 @@ var Twitter = require('twitter');
 var request = require("request");
 var Spotify = require('node-spotify-api');
 
-
-
 const consumer_key = twitterKeys.consumer_key;
 const consumer_secret = twitterKeys.consumer_secret ;
 const access_token_key = twitterKeys.access_token_key;
@@ -27,12 +25,8 @@ fs.readFile('keys.js',"utf8", function (err, data)
         if (err) {
             return console.log(err);
         }
-
     }
 );
-
-
-
 
 //--------------------- displays tweets
 if(process.argv[2] == myTweets){
@@ -60,24 +54,40 @@ if(process.argv[2] == myTweets){
 else if(process.argv[2]== spotifyThisSong)
 {
     console.log("You entered: ", nameOfInput);
-    console.log(spotifyClientSecret);
     var spotify = new Spotify({
             id: spotifyClientID,
         secret: spotifyClientSecret
     });
 
-    spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
-        if (err) {
-            return console.log('Error occurred: ' + err);
-        }
+    if(!process.argv[3]){
+        spotify.search({ type: 'track', query: 'The Sign' }, function(err, data) {
+            if (err) {
+                return console.log('Error occurred: ' + err);
+            }
 
-        console.log(data);
-    });
+            console.log(data);
+        });
 
-    console.log("Artist: ");
-    console.log("Song: ");
-    console.log("Preview link: ");
-    console.log("Album: ");
+
+    }
+    else{
+
+        spotify.search({ type: 'track', query: nameOfInput, limit: 3 }, function(err, data) {
+            if (err) {
+                return console.log('Error occurred: ' + err);
+            }
+
+            console.log(data);
+            console.log(data.type);
+        });
+
+        console.log("Artist: ");
+        console.log("Song: " );
+        console.log("Preview link: ");
+        console.log("Album: ");
+
+    }
+
 
 
 
@@ -105,17 +115,18 @@ else if(process.argv[2]== movieThis )
 
 }
 //-------------------- displays text inside of random.txt
-else if(process.argv[2]== doWhatItSays)
-{
+else if(process.argv[2]== doWhatItSays) {
     console.log("You entered do what it says!!");
-    fs.readFile('random.txt',"utf8", function (err, data)
-        {
+    fs.readFile('random.txt', "utf8", function (err, data) {
             //Logs the error in the file.
             if (err) {
                 return console.log(err);
             }
             console.log(data);
-
         }
     );
 }
+//Remaining issues:
+// 1- What to do with do-what-it-says
+// 2 - How to display data for spotify? Where are the other search parameters.
+// 3 - What data to display for Twitter?
