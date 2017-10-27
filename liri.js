@@ -68,7 +68,6 @@ else if(process.argv[2]== spotifyThisSong)
             console.log(data);
         });
 
-
     }
     else{
 
@@ -87,9 +86,6 @@ else if(process.argv[2]== spotifyThisSong)
         console.log("Album: ");
 
     }
-
-
-
 
 }
 //--------------------- displays movies
@@ -130,3 +126,9 @@ else if(process.argv[2]== doWhatItSays) {
 // 1- What to do with do-what-it-says
 // 2 - How to display data for spotify? Where are the other search parameters.
 // 3 - What data to display for Twitter?
+
+//
+//my-tweets
+//spotify-this-song
+//movie-this
+//do-what-it-says
