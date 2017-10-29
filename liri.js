@@ -46,14 +46,23 @@ if(process.argv[2] == myTweets){
     var params = {screen_name: 'bakershoemaker'};
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
         if (!error) {
-            console.log(tweets); //what do I use to display the tweets?
+
+            //console.log(tweets); //what do I use to display the tweets?
+            fs.writeFileSync('log.txt', JSON.stringify(tweets));
+            for(var i = 1; i < tweets.length; i++){
+                if (tweets[i].text) {
+                    console.log(tweets[i].text);
+                }
+            }
+            // console.log(tweets[1].text);
+            // console.log(tweets[2].text);
+            // console.log(tweets[3].text);
         }
     });
 }
 //--------------------- displays spotify songs
 else if(process.argv[2]== spotifyThisSong)
 {
-    console.log("You entered: ", nameOfInput);
     var spotify = new Spotify({
             id: spotifyClientID,
         secret: spotifyClientSecret
@@ -76,16 +85,16 @@ else if(process.argv[2]== spotifyThisSong)
                 return console.log('Error occurred: ' + err);
             }
 
-            console.log(data);
-            console.log(data.type);
+            //console.log(JSON.stringify(data));
+            //fs.writeFileSync('spotify.txt', JSON.stringify(data));
+            fs.appendFile('spotify.txt', JSON.stringify(data));
+            console.log("Artist: ", data.tracks.items[0].album.artists[0].name);
+            console.log("Song: ", data.tracks.items[0].name);
+            console.log("Preview link: ", data.tracks.items[0].external_urls.spotify);
+
         });
 
-        console.log("Artist: ");
-        console.log("Song: " );
-        console.log("Preview link: ");
-        console.log("Album: ");
-
-    }
+  }
 
 }
 //--------------------- displays movies
@@ -128,7 +137,7 @@ else if(process.argv[2]== doWhatItSays) {
 // 3 - What data to display for Twitter?
 
 //
-//my-tweets
-//spotify-this-song
-//movie-this
+//my-tweets --
+//spotify-this-song--
+//movie-this--
 //do-what-it-says
